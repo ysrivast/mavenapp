@@ -1,0 +1,11 @@
+0:0:0:0:0:0:0:1 - - [21/Nov/2017:17:24:44 +0530] "GET /MavenSpringApp1 HTTP/1.1" 302 - http-bio-8080-exec-1 0
+0:0:0:0:0:0:0:1 - - [21/Nov/2017:17:24:45 +0530] "GET /MavenSpringApp1/ HTTP/1.1" 200 1061 http-bio-8080-exec-2 1198
+0:0:0:0:0:0:0:1 - - [21/Nov/2017:17:24:45 +0530] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-3 0
+0:0:0:0:0:0:0:1 - - [21/Nov/2017:17:24:47 +0530] "GET /MavenSpringApp1/home HTTP/1.1" 200 1061 http-bio-8080-exec-4 16
+0:0:0:0:0:0:0:1 - - [21/Nov/2017:17:24:49 +0530] "GET /MavenSpringApp1/home HTTP/1.1" 200 1061 http-bio-8080-exec-5 15
+0:0:0:0:0:0:0:1 - - [21/Nov/2017:17:24:51 +0530] "GET /MavenSpringApp1/login HTTP/1.1" 200 1785 http-bio-8080-exec-6 124
+0:0:0:0:0:0:0:1 - - [21/Nov/2017:17:24:53 +0530] "POST /MavenSpringApp1/login HTTP/1.1" 200 1799 http-bio-8080-exec-7 77
+0:0:0:0:0:0:0:1 - - [21/Nov/2017:17:24:57 +0530] "POST /MavenSpringApp1/login HTTP/1.1" 200 1799 http-bio-8080-exec-8 28
+0:0:0:0:0:0:0:1 - - [21/Nov/2017:17:25:09 +0530] "POST /MavenSpringApp1/login HTTP/1.1" 200 1815 http-bio-8080-exec-9 3708
+0:0:0:0:0:0:0:1 - - [21/Nov/2017:17:25:23 +0530] "POST /MavenSpringApp1/login HTTP/1.1" 200 1405 http-bio-8080-exec-10 187
+0:0:0:0:0:0:0:1 - - [21/Nov/2017:17:25:26 +0530] "POST /MavenSpringApp1/logout HTTP/1.1" 404 949 http-bio-8080-exec-1 16
