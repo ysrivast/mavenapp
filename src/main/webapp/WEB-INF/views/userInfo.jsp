@@ -19,8 +19,7 @@
 
 
 	<form action="logout" method="post">
-		<input type="submit" value="Logout" /> <input type="hidden"
-			name="${_csrf.parameterName}" value="${_csrf.token}" />
+		<input type="submit" value="Logout" />
 	</form>
 
 	<h1>SOP : After login</h1>

@@ -24,13 +24,21 @@ public class UserDaoImpl implements UserDao {
 		
 	}
 
-	public User validateUser(User user) {
+	public boolean validateUser(User user) {
+		System.out.println("In UserDao : before executing query");
+		String sql = "select * from product_users where username= '"+ user.getUserName()+ "'and password= '"+user.getPassword()+"' " ;
+		List<User> listOfUsers=new ArrayList<User>();
+		listOfUsers= jdbcTemplate.query(sql, new UserMapper());
+		System.out.println("In UserDao : after executing query"+listOfUsers.size());
+		return (listOfUsers.size()>0 ? true : false);
+	}
+
+	public User getUserDetail(User user) {
 		System.out.println("In UserDao : before executing query");
 		String sql = "select * from product_users where username= '"+ user.getUserName()+ "'and password= '"+user.getPassword()+"' " ;
 		List<User> resultUser=new ArrayList<User>();
-		resultUser= jdbcTemplate.query(sql, new UserMapper());
-		System.out.println("In UserDao : after executing query"+resultUser.size());
-		return (resultUser.size()>0 ? resultUser.get(0) : new User());
+		resultUser=  jdbcTemplate.query(sql, new UserMapper());
+		return resultUser.get(0);
 	}
 
 }

@@ -23,11 +23,11 @@ public class HelloController {
 
 	@Autowired
 	UserService userService;
-	@Autowired
-	User user;
+	String userNameInSession;
+
 	@InitBinder
-	public void initBinder(WebDataBinder binder){
-		
+	public void initBinder(WebDataBinder binder) {
+
 		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	}
 
@@ -50,50 +50,64 @@ public class HelloController {
 	}
 
 	@RequestMapping(path = "/login", method = RequestMethod.GET)
-	public String GoToLogin(HttpSession session) {
-		System.out.println("In login get method");
-		String message = "You are not sopposed to be welcome here";
+	public String goToLogin(ModelMap model) {
+		String view;
+		System.out.println("In login get method" + userNameInSession);
+		if (userService.getObjectFromSession(userNameInSession) != null) {
+			System.out.println(userService
+					.getObjectFromSession(userNameInSession));
+			return checkLogin(
+					userService.getObjectFromSession(userNameInSession), model);
+		}
 		return "login";
 
 	}
 
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
-	public String checkLogin(User user, ModelMap model,HttpSession session) {
-		System.out.println("In login post method");
+	public String checkLogin(User user, ModelMap model) {
 		System.out.println(user.getUserName() + " | " + user.getPassword());
 		String userName = user.getUserName();
 		String password = user.getPassword();
-		String message=null;
-		String view;
-		System.out.println("User value from request"+user.getUserName()
-				+ user.getGender());
+		String message = null;
+		String view = null;
+		boolean hasError;
 		User retrivedUser;
 		if (userName != null && password != null) {
-			retrivedUser = userService.isUserValid(user);
-			model.addAttribute("user",retrivedUser);
-			System.out.println("User value from db"+retrivedUser.getUserName()
-					+ retrivedUser.getGender());
-			if(retrivedUser.getUserName()!=null){
-			view="userInfo";
+			hasError = userService.isUserValid(user);
+			if (hasError) {
+				retrivedUser = userService.getUser(user);
+				userService.storeObjectInSession(retrivedUser);
+				userNameInSession = userService.getObjectFromSession(userName)
+						.getUserName();
+				model.addAttribute("user", retrivedUser);
+				System.out
+						.println("User value from db"
+								+ retrivedUser.getUserName()
+								+ retrivedUser.getGender());
+				view = "userInfo";
 			}
-			else{
-				message="Incorrect username or paswword";
-				view="login";
+			else {
+				message = "Incorrect username or Password";
+				view = "login";
 			}
-		} else if (userName == null) {
-			message = "Enter username";
-			//model.addAttribute("error", message);
-			System.out.println(message);
-			view="login";
 		} else {
-			message = "Enter password";
-			//model.addAttribute("error", message);
-			System.out.println(message);
-			view="login";
+			message = "Incorrect username or Password";
+			view = "login";
 		}
 		model.addAttribute("error", message);
-		System.out.println(view);
+		System.out
+				.println(view
+						+ " : is View name in login post method and username is session is : "
+						+ userNameInSession);
 		return view;
+
+	}
+
+	@RequestMapping(path = "/logout", method = RequestMethod.POST)
+	public String goToLogout() {
+		userService.deleteObjectInSession(userNameInSession);
+		System.out.println("In logout method, deleteObjectInSession is called");
+		return "login";
 
 	}
 
