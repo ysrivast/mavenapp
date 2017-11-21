@@ -26,7 +26,8 @@
 <body>
 	<jsp:include page="_header.jsp"></jsp:include>
 	<jsp:include page="_menu.jsp"></jsp:include>
-	${error}
+	
+	<p style="color: red;">${error}</p>
 	<form:form action="login" method="post" modelAttribute="user" onsubmit="return validateForm();">
 		<table border="0">
 			<tr>
