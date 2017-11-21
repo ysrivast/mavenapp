@@ -1,7 +1,6 @@
 package springapp.web.controller;
 
-import javax.servlet.http.HttpSession;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.annotation.Scope;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.support.WebBindingInitializer;
 
 import springapp.web.model.User;
 import springapp.web.service.UserService;
@@ -21,6 +19,8 @@ import springapp.web.service.UserService;
 @Scope("session")
 public class HelloController {
 
+	private static final Logger logger = Logger.getLogger(HelloController.class);
+	
 	@Autowired
 	UserService userService;
 	String userNameInSession;
@@ -33,18 +33,14 @@ public class HelloController {
 
 	@RequestMapping(path = "/", method = RequestMethod.GET)
 	public String helloUser(Model model) {
-		System.out.println("index page called");
-		String message = "You are not sopposed to be welcome here";
-		model.addAttribute("message", message);
+		logger.info("index page called");
 		return "index";
 
 	}
 
 	@RequestMapping(path = "/home", method = RequestMethod.GET)
 	public String helloPage(Model model) {
-		System.out.println("home page called");
-		String message = "You are not sopposed to be welcome here";
-		model.addAttribute("message", message);
+		logger.info("home page called");
 		return "index";
 
 	}
@@ -52,9 +48,9 @@ public class HelloController {
 	@RequestMapping(path = "/login", method = RequestMethod.GET)
 	public String goToLogin(ModelMap model) {
 		String view;
-		System.out.println("In login get method" + userNameInSession);
+		logger.info("In login get method" + userNameInSession);
 		if (userService.getObjectFromSession(userNameInSession) != null) {
-			System.out.println(userService
+			logger.info(userService
 					.getObjectFromSession(userNameInSession));
 			return checkLogin(
 					userService.getObjectFromSession(userNameInSession), model);
@@ -80,8 +76,7 @@ public class HelloController {
 				userNameInSession = userService.getObjectFromSession(userName)
 						.getUserName();
 				model.addAttribute("user", retrivedUser);
-				System.out
-						.println("User value from db"
+				logger.info("User value from db"
 								+ retrivedUser.getUserName()
 								+ retrivedUser.getGender());
 				view = "userInfo";
@@ -95,8 +90,8 @@ public class HelloController {
 			view = "login";
 		}
 		model.addAttribute("error", message);
-		System.out
-				.println(view
+		logger.error(message);
+		logger.info(view
 						+ " : is View name in login post method and username is session is : "
 						+ userNameInSession);
 		return view;
@@ -106,7 +101,7 @@ public class HelloController {
 	@RequestMapping(path = "/logout", method = RequestMethod.POST)
 	public String goToLogout() {
 		userService.deleteObjectInSession(userNameInSession);
-		System.out.println("In logout method, deleteObjectInSession is called");
+		logger.info("In logout method, deleteObjectInSession is called");
 		return "login";
 
 	}
