@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Scope("session")
+
 public class User {
 	private static final long serialVersionUID = 1L;
 	private String userName;

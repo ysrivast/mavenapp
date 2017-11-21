@@ -4,7 +4,7 @@ import springapp.web.model.User;
 
 public interface UserDao {
 	
-	void registerUser();
+	boolean registerUser(User user);
 	boolean validateUser(User user);
 	User getUserDetail(User user);
 	

@@ -14,7 +14,7 @@
 <jsp:include page="_menu.jsp"></jsp:include>
 
 <h1>Hello friends ! welcome to stock webstie</h1>
-
+<h2>${message}</h2>
 <h1 > SOP : no login</h1>
 
 <h2>Results</h2>

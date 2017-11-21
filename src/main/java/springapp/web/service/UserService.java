@@ -13,6 +13,8 @@ public interface UserService {
 	public boolean isUserValid(User user);
 	
 	public User getUser(User user);
+	
+	boolean addUser(User user);
 
 	
 }

@@ -42,5 +42,9 @@ public class UserServiceImpl implements UserService {
 		session.removeAttribute(userName);
 		logger.info("user deleted from Session");
 	}
+	public boolean addUser(User user) {
+		logger.info("In user service");
+		return userDao.registerUser(user);
+	}
 
 }

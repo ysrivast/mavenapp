@@ -19,27 +19,35 @@ public class UserDaoImpl implements UserDao {
 	DataSource dataSource;
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	private static final Logger logger=Logger.getLogger(UserDaoImpl.class);
-	public void registerUser() {
-		
-		
-	}
+	private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
 
 	public boolean validateUser(User user) {
 		logger.info("In UserDao : before executing query");
-		String sql = "select * from product_users where username= '"+ user.getUserName()+ "'and password= '"+user.getPassword()+"' " ;
-		List<User> listOfUsers=new ArrayList<User>();
-		listOfUsers= jdbcTemplate.query(sql, new UserMapper());
-		logger.info("In UserDao : after executing query"+listOfUsers.size());
-		return (listOfUsers.size()>0 ? true : false);
+		String sql = "select * from product_users where username= '"
+				+ user.getUserName() + "'and password= '" + user.getPassword()
+				+ "' ";
+		List<User> listOfUsers = new ArrayList<User>();
+		listOfUsers = jdbcTemplate.query(sql, new UserMapper());
+		logger.info("In UserDao : after executing query" + listOfUsers.size());
+		return (listOfUsers.size() > 0 ? true : false);
 	}
 
 	public User getUserDetail(User user) {
 		logger.info("In UserDao : before executing query");
-		String sql = "select * from product_users where username= '"+ user.getUserName()+ "'and password= '"+user.getPassword()+"' " ;
-		List<User> resultUser=new ArrayList<User>();
-		resultUser=  jdbcTemplate.query(sql, new UserMapper());
+		String sql = "select * from product_users where username= '"
+				+ user.getUserName() + "'and password= '" + user.getPassword()
+				+ "' ";
+		List<User> resultUser = new ArrayList<User>();
+		resultUser = jdbcTemplate.query(sql, new UserMapper());
 		return resultUser.get(0);
+	}
+
+	public boolean registerUser(User user) {
+		String sql= "insert into product_users values ('"+user.getUserName()+"','"+user.getPassword()+"','"+user.getGender()+"')";
+		logger.info("In UserDao before executing query : "+sql);
+		int count=jdbcTemplate.update(sql);
+		logger.info("In UserDao after executing query number of row inserted is : "+count);
+		return count>0 ? true : false;
 	}
 
 }
