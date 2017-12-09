@@ -44,13 +44,16 @@ public class HelloController {
 	@RequestMapping(path = "/home", method = RequestMethod.GET)
 	public String helloPage(Model model) {
 		logger.info("home page called");
+		/*if (userService.getObjectFromSession()!=null){
+			
+		}*/
 		return "index";
 
 	}
 
 	@RequestMapping(path = "/login", method = RequestMethod.GET)
 	public String goToLogin(ModelMap model) {
-		logger.info("In login get method" + userNameInSession);
+		logger.info("In login get method : " + userNameInSession);
 		if (userService.getObjectFromSession(userNameInSession) != null) {
 			logger.info(userService.getObjectFromSession(userNameInSession));
 			return checkLogin(
@@ -62,11 +65,11 @@ public class HelloController {
 
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
 	public String checkLogin(User user, ModelMap model) {
-		System.out.println(user.getUserName() + " | " + user.getPassword());
+		logger.info(user.getUserName() + " | " + user.getPassword());
 		String userName = user.getUserName();
 		String password = user.getPassword();
 		boolean hasError;
-		view=null;
+		view = null;
 		User retrivedUser;
 		if (userName != null && password != null) {
 			hasError = userService.isUserValid(user);
@@ -99,7 +102,7 @@ public class HelloController {
 	@RequestMapping(path = "/logout", method = RequestMethod.POST)
 	public String goToLogout() {
 		userService.deleteObjectInSession(userNameInSession);
-		userNameInSession=null;
+		userNameInSession = null;
 		logger.info("In logout method, deleteObjectInSession is called");
 		return "login";
 
@@ -114,7 +117,7 @@ public class HelloController {
 
 	@RequestMapping(path = "/register", method = RequestMethod.POST)
 	public String createLogin(User user, ModelMap model) {
-		view=null;
+		view = null;
 		System.out.println(user.getUserName() + " | " + user.getPassword()
 				+ " | " + user.getGender());
 		String userName = user.getUserName();
@@ -122,32 +125,37 @@ public class HelloController {
 		String gender = user.getGender();
 		boolean hasError;
 		if (userName != null && password != null & gender != null) {
-			if (userName.length() < 6) {
-				view = "register";
-				message = "UserName must be greater than 6 character";
+			if (userName.length() < 6 || password.length() < 6) {
+				message = "UserName or Password must be greater than 6 character";
 				logger.error(message);
-			} else if (password.length() < 6) {
-				view = "register";
-				message = "Password must be greater than 6 character";
+				model.addAttribute("message", message);
+				return "register";
+			} else if (userName.length() > 30 || password.length() > 30) {
+
+				message = " must be less than 30 character";
+				model.addAttribute("message", message);
 				logger.error(message);
+				return "register";
 			} else if (userService.isUserValid(user)) {
-				view = "register";
+
 				message = "UserName already exists in database";
 				logger.error(message);
+				model.addAttribute("message", message);
+				return "register";
 			} else {
 				boolean flag = userService.addUser(user);
 				if (flag) {
 					message = "You are successfully registered";
-					view = "index";
+					model.addAttribute("message", message);
 					logger.error(message);
+					return "index";
 				}
 			}
-		} else {
-			view = "register";
-			message = "All fields are mandatory";
+
 		}
+		message = "All fields are mandatory";
 		model.addAttribute("message", message);
-		return view;
+		return "register";
 
 	}
 

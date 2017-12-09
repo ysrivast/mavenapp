@@ -44,8 +44,10 @@ public class UserDaoImpl implements UserDao {
 
 	public boolean registerUser(User user) {
 		String sql= "insert into product_users values ('"+user.getUserName()+"','"+user.getPassword()+"','"+user.getGender()+"')";
+		String sql1= "insert into user_roles values ('"+user.getUserName()+"', 'customer')";
 		logger.info("In UserDao before executing query : "+sql);
 		int count=jdbcTemplate.update(sql);
+		logger.info("In UserDao after executing supporting  query number of row inserted is : "+jdbcTemplate.update(sql1));
 		logger.info("In UserDao after executing query number of row inserted is : "+count);
 		return count>0 ? true : false;
 	}

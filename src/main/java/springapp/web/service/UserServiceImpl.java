@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import springapp.web.controller.HelloController;
 import springapp.web.dao.UserDao;
@@ -39,9 +40,10 @@ public class UserServiceImpl implements UserService {
 
 	public void deleteObjectInSession(String userName) {
 		logger.info(session.getAttribute(userName));
-		session.removeAttribute(userName);
+		session.invalidate();
 		logger.info("user deleted from Session");
 	}
+	@Transactional
 	public boolean addUser(User user) {
 		logger.info("In user service");
 		return userDao.registerUser(user);

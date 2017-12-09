@@ -4,7 +4,7 @@
 	pageEncoding="UTF-8"%>
 <div style="background: #E0E0E0; height: 55px; padding: 5px;">
 	<div style="float: left">
-		<h1>My Site : ${pageContext.request.servletPath}</h1>
+		<h3><b>My Site : </b> ${pageContext.request.servletPath}</h3>
 
 	</div>
 

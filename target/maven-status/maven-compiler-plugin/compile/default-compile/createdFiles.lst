@@ -1,0 +1,9 @@
+springapp\web\dao\UserDao.class
+springapp\web\model\Product.class
+springapp\web\service\UserService.class
+springapp\web\mapper\UserMapper.class
+springapp\web\model\User.class
+springapp\web\service\UserServiceImpl.class
+springapp\web\controller\HelloController.class
+springapp\web\dao\UserDaoImpl.class
+springapp\web\logger\MyLogger.class
